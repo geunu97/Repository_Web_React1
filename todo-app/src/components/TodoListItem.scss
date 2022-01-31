@@ -3,39 +3,33 @@
   display: flex;
   align-items: center;
 
-  //짝수번째 TodoListItem마다 배경색 지정
   &:nth-child(even) {
     background: #f8f9fa;
   }
 
-  //왼쪽 아이콘 부분과 텍스트 부분
   .checkbox {
     cursor: pointer;
-    flex: 1; //차지할 수 있는 영역 모두 차지
+    flex: 1;
     display: flex;
     align-items: center;
     svg {
-      //아이콘
       font-size: 1.5rem;
     }
     .text {
-      //텍스트
       margin-left: 0.5rem;
-      flex: 1; //차지할 수 있는 영역 모두 차지    //나머지 부분은 딱 아이콘 크기만큼
+      flex: 1;
     }
-    //.checkbox부분 체크되었을 때
     &.checked {
       svg {
         color: #22b8cf;
       }
       .text {
         color: #adb5bd;
-        text-decoration: line-through; //텍스트 가운데줄 표시
+        text-decoration: line-through;
       }
     }
   }
 
-  //오른쪽 아이콘 부분
   .remove {
     display: flex;
     align-items: center;
@@ -43,12 +37,10 @@
     color: #ff6b6b;
     cursor: pointer;
     &:hover {
-      //오른쪽 아이콘 부분에 마우스 올리면
       color: #ff8787;
     }
   }
 
-  //요소와 요소 사이에 테두리 넣기  //&는 부모클래스를 가리킴
   & + & {
     border-top: 1px solid #dee2e6;
   }

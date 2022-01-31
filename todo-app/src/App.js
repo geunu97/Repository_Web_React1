@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
@@ -22,18 +22,45 @@ const App = () => {
     },
   ]);
 
+  const nextId = useRef(4);
+
+  const onInsert = useCallback(
+    (text) => {
+      const todo = {
+        id: nextId.current,
+        text,
+        checked: false,
+      };
+      setTodos(todos.concat(todo));
+      nextId.current += 1;
+    },
+    [todos],
+  );
+
+  const onRemove = useCallback(
+    (id) => {
+      setTodos(todos.filter((todo) => todo.id !== id));
+    },
+    [todos],
+  );
+
+  const onToggle = useCallback(
+    (id) => {
+      setTodos(
+        todos.map((todo) =>
+          todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+        ),
+      );
+    },
+    [todos],
+  );
+
   return (
     <TodoTemplate>
-      <TodoInsert />
-      <TodoList todos={todos} />
+      <TodoInsert onInsert={onInsert} />
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
     </TodoTemplate>
   );
 };
 
 export default App;
-
-//(태그 사이에 있는 값) TodoInsert컴포넌트와 TodoList컴포넌트는 Children이다
-
-//나중에 추가할 일정 항목에 대한 상태들은 모두 App 컴포넌트에서 관리한다
-//App컴포넌트에서 useState를 사용해서 todos라는 상태 정의한 후, todos를 TodoList의 props로 전달하기
-//todos는 배열이며, 그 안에는 각 항목에 대한 {고유id, 내용, 완료여부}로 이루어진 객체형태로 이루어져 있다
